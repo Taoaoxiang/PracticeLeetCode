@@ -18,5 +18,8 @@
     <ClCompile Include="No_0_helloworld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="No_2_Add-Two-Numbers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
