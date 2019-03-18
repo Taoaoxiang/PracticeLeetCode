@@ -1,36 +1,37 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <math.h>
 
 using namespace std;
 
 class Solution {
 public:
-	string convert(string s, int numRows) {
-		if (numRows == 1) return s;
-
-		vector<string> vec_all;
-		for (int i = 0; i != numRows;++i) {
-			string tmp;
-			vec_all.push_back(tmp);
+	int reverse(int x) {
+		int sign = 1;
+		int rtn;
+		int tmp_i = x;
+		long li=0;
+		if (x < 0) { 
+			sign *= -1;
+			tmp_i *= -1;
 		}
-		for (int i = 0; i != s.size();++i) {
-			int serie = 2 * numRows - 2;
-			int ori_row = i % (serie);
-			int fin_row;
-				if (ori_row < numRows) {
-					fin_row = ori_row;
-				}
-				else {
-					fin_row = serie - ori_row;
-				}
-				vec_all[fin_row].push_back(s[i]);
+		else if (x == 0) { return 0; }
+		int digit = pow(10, 9);
+		int digit2=1;
+		while (tmp_i/digit == 0) {
+			digit /= 10;
 		}
-		string rtn;
-		for (int i = 0; i != numRows;++i) {
-			//cout << "T1: "<< vec_all[i] << endl;
-			rtn += vec_all[i];
+		while (digit != 0) {
+			li += (tmp_i / digit)*digit2;
+			tmp_i = tmp_i % digit;
+			digit /= 10;
+			digit2 *= 10;
 		}
+		li *= sign;
+		if (li > (pow(2, 31) - 1) || li < (pow(-2, 31))) { return 0; }
+		else { rtn = li; }
+		//cout << x << '\n'<<li << endl;
 		return rtn;
 	}
 };
@@ -38,13 +39,12 @@ public:
 int main() {
 
 	string s;
-	int numRows;
+	int x;
 	s = "PAYPALISHIRING";
-	numRows = 4;
-	string ret = Solution().convert(s, numRows);
+	x = 123;
+	int ret = Solution().reverse(x);
 
-	string out = (ret);
-	cout << out << endl;
+	cout << ret << endl;
 
 	std::cout << "Wuzup world!" << std::endl;
 	return 0;
