@@ -28,8 +28,7 @@ public:
 	struct ELEMENT_STRING
 	{
 		char c = '\0';
-		int t_min = 0;
-		bool t_max = true;
+		bool limited = true;
 	};
 
 	vector<ELEMENT_STRING> vectorize(string &p, int p_len) {
@@ -39,49 +38,52 @@ public:
 		while (pos != p_len) {
 			pos_next = pos + 1;
 			if ((p[pos] >= 'a' && p[pos] <= 'z') || (p[pos] == '.')) {
-				if (rtn.size() == 0) {
-					ELEMENT_STRING tmp;
-					tmp.c = p[pos];
-					if ((pos_next != p_len) && (p[pos_next] == '*')) {
-						tmp.t_max = false;
-						++pos;
-					}
-					else { tmp.t_min += 1; }
-					rtn.push_back(tmp);
+				ELEMENT_STRING tmp;
+				tmp.c = p[pos];
+				if ((pos_next != p_len) && (p[pos_next] == '*')) {
+					tmp.limited = false;
+					++pos;
 				}
-				else {
-					ELEMENT_STRING& last = rtn.back();
-					if (p[pos] != last.c) {
-						ELEMENT_STRING tmp;
-						tmp.c = p[pos];
-						if ((pos_next != p_len) && (p[pos_next] == '*')) {
-							tmp.t_max = false;
-							++pos;
-						}
-						else { tmp.t_min += 1; }
-						rtn.push_back(tmp);
-					}
-					else {
-						if ((pos_next != p_len) && (p[pos_next] == '*')) {
-							last.t_max = false;
-							++pos;
-						}
-						else { last.t_min += 1; }
-					}
-				}
+				rtn.push_back(tmp);
 			}
-			else {
-				cout << "T2: WTF??? =>" << p[pos] << endl;
-			}
+			else { cout << "T2: WTF??? =>" << p[pos] << endl; }
 			++pos;
 		}
 		return rtn;
 	}
 
+	bool compare(string &s, int s_len, int s_pos, vector<ELEMENT_STRING> &v, int v_len, int v_pos) {
+		//string st="";
+		//for (int i = 0;i < v_pos;++i) { st += v[i].c; }
+		//cout << "T1: " << s.substr(0, s_pos)
+		//	<< "\nT2: =>" << st << endl;
+		if ((s_pos == s_len) && (v_pos == v_len)) { return true; }
+		else if (v_pos == v_len) { return false; }
+		if (s_pos == s_len) {
+			if (v[v_pos].limited == false) { return compare(s, s_len, s_pos, v, v_len, (v_pos + 1)); }
+			else { return false; }
+		}
+		else {
+			if (s[s_pos] == v[v_pos].c || v[v_pos].c == '.') {
+				if (v[v_pos].limited == true) { return compare(s, s_len, (s_pos+1), v,v_len, (v_pos+1)); }
+				else {
+					return (compare(s, s_len, s_pos, v,v_len, (v_pos + 1))
+						|| compare(s, s_len, (s_pos + 1), v, v_len,v_pos)
+						|| compare(s, s_len, (s_pos + 1), v, v_len,(v_pos+1)));
+				}
+			}
+			else {
+				if (v[v_pos].limited == true) { return false; }
+				else { return compare(s,s_len, s_pos, v,v_len, (v_pos+1)); }
+			}
+		}
+	}
+
+
 	bool isMatch(string s, string p) {
 		int s_len = s.length();
 		int p_len = p.length();
-		cout << "T1: " << p << endl;
+		//cout << "T1: " << p << endl;
 		if (p_len == 0) { 
 			if (s_len == 0) { return true; }
 			else { return false; }
@@ -89,18 +91,15 @@ public:
 		else { 
 			if (checkQuality(p, p_len) == false) { return false; }
 			vector<ELEMENT_STRING> vec = vectorize(p, p_len);
-			///*cout << "VEC: ";
+			//cout << "VEC: ";
 			//for (int i = 0; i < vec.size();++i) {
 			//	cout << "\nchar:     " << vec[i].c
-			//		<< "\nmin:      " << vec[i].t_min
-			//		<< "\nmax(0/1): " << vec[i].t_max << endl;
-			//}*/
-			if ((vec.size() == 1) && (vec[0].c == '.') && (vec[0].t_min == 0)) { return true; }
-			else {
-			
-			}
+			//		<< "\nLim:      " << vec[i].limited
+			//		<< "\nSize:     " << vec.size()
+			//		<< endl;
+			//}
+			return compare(s, s_len, 0, vec, vec.size(), 0);
 		}
-
 		return false;
 	}
 };
@@ -108,9 +107,18 @@ public:
 int main() {
 
 	string p, s;
-	s = "dddabb";
-	p = "a*a*bb*bb*b*bc*c*.*.*.b";
-	p = ".*.*.*";
+	s = "mississippi";
+	s = "acaabbaccbbacaabbbb";
+	//s = "acaab";
+	//s = "a";
+	s = "bbbba";
+	p = ".*a*a";
+
+
+		
+
+	//p = "mis*is*p*.";
+	//p = ".*.*.*";
 	bool ret = Solution().isMatch(s, p);
 
 	
