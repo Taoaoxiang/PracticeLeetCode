@@ -4,3 +4,4 @@
 //im @ La Pine State Park, and its raining outside. 6:00am, still in bed. barely have reception.
 //beep beep beep
 //@Newport OR
+//@Portland OR. The traffic in Portland.
