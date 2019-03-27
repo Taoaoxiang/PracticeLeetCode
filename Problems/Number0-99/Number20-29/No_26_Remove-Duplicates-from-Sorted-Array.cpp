@@ -46,27 +46,21 @@ public:
 		if (nums.size() == 0) { return 0; }
 		else if (nums.size() == 1) { return 1; }
 		int iTemp;
-		int rtn = 0;
 		int ii = 0;
 		while (ii < nums.size()) {
 			if (ii == 0) {
 				iTemp = nums[ii];
-				rtn += 1;
 				++ii;
 			}
 			else {
-				if (nums[ii] == iTemp) {
-					nums.erase(nums.begin() + ii);
-				}
+				if (nums[ii] == iTemp) { nums.erase(nums.begin() + ii); }
 				else {
 					iTemp = nums[ii];
-					rtn += 1;
 					++ii;
 				}
 			}
-
 		}
 
-		return rtn;
+		return nums.size();
 	}
 };
