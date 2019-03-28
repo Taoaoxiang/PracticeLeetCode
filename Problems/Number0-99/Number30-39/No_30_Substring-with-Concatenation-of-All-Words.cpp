@@ -106,3 +106,55 @@ public:
 		return rtn;
 	}
 };
+
+
+//Runtime: 1832 ms, faster than 9.19% of C++ online submissions for Substring with Concatenation of All Words.
+//Memory Usage : 420.8 MB, less than 6.66% of C++ online submissions for Substring with Concatenation of All Words.
+
+// More concise version, but slower. LOL
+class Solution {
+public:
+	bool recursiveWordSeek(string str, int wordLen, map<string, int> &wordFreq) {
+		map<string, int> hashMap;
+		for (int i = 0; i < str.length(); i = i + wordLen) {
+			string subStr = str.substr(i, wordLen);
+			if (hashMap.find(subStr) != hashMap.end()) { ++hashMap[subStr]; }
+			else { hashMap[subStr] = 1; }
+		}
+		for (map<string, int>::iterator it = wordFreq.begin();it != wordFreq.end();++it) {
+			if (hashMap.find(it->first) != hashMap.end()) {
+				if (wordFreq[it->first] != hashMap[it->first]) { return false; }
+			}
+			else { return false; }
+		}
+		return true;
+	}
+
+	vector<int> findSubstring(string s, vector<string>& words) {
+		vector<int> rtn;
+		if (words.size() == 0) { return rtn; }
+		// All empty strings in the vector
+		if (words[0].length() == 0) {
+			for (int i = 0; i <= s.length(); ++i) { rtn.push_back(i); }
+			return rtn;
+		}
+		int wordLen = words[0].length();
+		int wordsSize = words.size();
+		int wordsTotalLen = wordsSize * wordLen;
+		int sLen = s.length();
+		if (wordsTotalLen > sLen) { return rtn; }
+		map<string, int> wordFreq;
+		for (int i = 0; i < wordsSize; i++) {
+			if (wordFreq.find(words[i]) != wordFreq.end()) { ++wordFreq[words[i]]; }
+			else { wordFreq[words[i]] = 1; }
+		}
+		for (int i = 0; i < s.length();++i) {
+			if (i <= (sLen - wordsTotalLen)) {
+				if (recursiveWordSeek(s.substr(i, wordsTotalLen), wordLen, wordFreq) == true) { rtn.push_back(i); }
+			}
+			else { break; }
+		}
+
+		return rtn;
+	}
+};
