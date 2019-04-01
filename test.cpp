@@ -9,60 +9,37 @@ using namespace std;
 
 class Solution {
 public:
-	int vecSum(vector<int>& Can) {
-		int rtn = 0;
-		for (int i = 0; i < Can.size(); ++i) { rtn += Can[i]; }
-		return rtn;
-	}
-
-	//checkSubStr(vector<int>(candidates.begin() + i), target)
-	void checkSubStr(vector<int>& subCan, int target, vector<vector<int>>& rtn) {
-		int iLast = subCan.back();
-		int iRemain = target % iLast;
-		int iTime = target / iLast;
-		vector<int> vecTemp(iTime, iLast);
-		for (int i = subCan.size() - 1; i >= 0; --i) {
-			if (iRemain == 0) {
-				rtn.push_back(vecTemp);
-				vecTemp.erase[0];
-				if (vecTemp.size() == 0) { break; }
-				else {
-					if (vecTemp[0] != iLast) { break; }
-					else {
-
-
-					}
-				}
-			}
-			else {
-
-
-			}
-		
+	//void vecOut(vector<int>& in) {
+	//	cout << "Current vec: ";
+	//	for (int i = 0; i < in.size(); ++i) { cout << in[i] << ", "; }
+	//	cout << endl;
+	//}
+	
+	void checkSubStr(vector<int>& candidates, int iForward, int rRemainder, vector<int> vecIn, vector<vector<int>>& rtn) {
+		if (iForward < 0) {
+			if (rRemainder == 0) { rtn.push_back(vecIn); }
+			return;
 		}
-
-
-		while (true) {
-			if (iRemain == 0) {
-				rtn.push_back(vecTemp);
-				vecTemp.erase[0];
-				if (vecTemp.size() == 0) { break; }
-				else {
-					if (vecTemp[0] != iLast) { break; }
-					else {
-						
-
-					}
-				}
-			}
-			else {
-			
-			
-			}
-		
+		if (rRemainder == 0) {
+			rtn.push_back(vecIn);
+			return;
 		}
-
-		return;
+		else {
+			if (candidates[iForward] > rRemainder) { 
+				checkSubStr(candidates, iForward - 1, rRemainder, vecIn, rtn); 
+				return;
+			}
+			checkSubStr(candidates, iForward - 1, rRemainder, vecIn, rtn);
+			int iTime = rRemainder / candidates[iForward];
+			for (int i = iTime; i > 0;--i) {
+				int iRemain = rRemainder - i*candidates[iForward];
+				vector<int> vecTemp(i, candidates[iForward]);
+				vecTemp.insert(vecTemp.end(), vecIn.begin(), vecIn.end());
+				//vecOut(vecTemp);
+				checkSubStr(candidates, iForward - 1,  iRemain, vecTemp, rtn);
+			}
+			return;
+		}
 	}
 
 	vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
@@ -74,12 +51,13 @@ public:
 			return rtn;
 		}
 		else {
-			for (int i = candidates.size() -1 ; i>=0; --i) {
-				if (candidates[i] > target) { continue; }
-				else {
-					checkSubStr(vector<int>(candidates.begin(), candidates.begin()+i+1), target, rtn);
-				}
-			}
+			checkSubStr(candidates, candidates.size() - 1, target, vector<int>(), rtn);
+			//for (int i = candidates.size() - 1; i >= 0; --i) {
+			//	checkSubStr(candidates, i, target, vector<int>(), rtn);
+			//	//for (int iTime = target / candidates[i]; iTime > 0; --iTime) {
+			//	//	checkSubStr(candidates, i-1, (target-candidates[i]*iTime), vector<int>(iTime, candidates[i]), rtn);
+			//	//}
+			//}
 		
 		}
 		return rtn;
@@ -91,7 +69,11 @@ public:
 int main() {
 
 	vector<int> can = { 8, 2, 3, 6, 7, 9 };
+	can = { 2, 3, 6, 7 };
+	can = { 7,3,2 };
 	int target = 8;
+	target = 7;
+	target = 18;
 	Solution().combinationSum(can, target);
 
 	std::cout << "Wuzup world!" << std::endl;
