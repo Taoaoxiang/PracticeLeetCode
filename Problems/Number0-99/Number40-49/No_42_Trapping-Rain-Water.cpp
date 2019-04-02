@@ -1,13 +1,19 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <cmath>
-#include <algorithm>
-#include <map>
-#include <functional>
+//Given n non - negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.
+//
+//
+//The above elevation map is represented by array[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1].In this case, 6 units of rain water(blue section) are being trapped.Thanks Marcos for contributing this image!
+//
+//Example:
+//
+//Input: [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]
+//	Output : 6
+//
 
-using namespace std;
 
+//Runtime: 56 ms, faster than 7.80% of C++ online submissions for Trapping Rain Water.
+//Memory Usage : 9 MB, less than 100.00% of C++ online submissions for Trapping Rain Water.
+
+// My slow version, but memory saving :p
 class Solution {
 public:
 	void findNPop(vector<int>& height, int &rtn) {
@@ -20,7 +26,7 @@ public:
 			else { break; }
 		}
 		while (height.size() > 0) {
-			if (height[height.size()-1] == 0) { height.erase(height.end()-1); }
+			if (height[height.size() - 1] == 0) { height.erase(height.end() - 1); }
 			else if (height[height.size() - 1] <= 0) {
 				rtn -= height[height.size() - 1];
 				height.erase(height.end() - 1);
@@ -45,17 +51,3 @@ public:
 		return rtn;
 	}
 };
-
-
-int main() {
-
-	vector<int> height = { 0,1,0,2,1,0,1,3,2,1,2,1 };
-
-	int ret = Solution().trap(height);
-
-
-	cout << ret << endl;
-
-	std::cout << "Wuzup world!" << std::endl;
-	return 0;
-}
