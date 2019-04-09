@@ -28,14 +28,14 @@ struct ListNode {
 };
 
 //Runtime: 8 ms, faster than 100.00% of C++ online submissions for Remove Duplicates from Sorted List II.
-//Memory Usage : 9.2 MB, less than 35.44% of C++ online submissions for Remove Duplicates from Sorted List II.
+//Memory Usage: 9.1 MB, less than 45.15% of C++ online submissions for Remove Duplicates from Sorted List II.
 
 // This method is fastest of all, yay! :)
 class Solution {
 public:
 	ListNode* deleteDuplicates(ListNode* head) {
 		if (head == NULL || head->next == NULL) { return head; }
-		ListNode* p = head, *pHead = NULL, *pPre = NULL;
+		ListNode *p = head, *pPre = NULL;
 		bool i = false;
 		while (p->next != NULL) {
 			if (p->val == p->next->val) {
@@ -43,8 +43,8 @@ public:
 				p->next = p->next->next;
 			}
 			else {
-				if (!i) {
-					if (pPre == NULL) { pHead = p; }
+				if (i == false) {
+					if (pPre == NULL) { head = p; }
 					else { pPre->next = p; }
 					pPre = p;
 				}
@@ -53,12 +53,15 @@ public:
 			}
 		}
 		if (pPre != NULL) {
-			if (!i) { pPre->next = p; }
+			if (i == false) { pPre->next = p; }
 			else { pPre->next = NULL; }
 		}
-		else { if (!i) { pHead = p; } }
+		else {
+			if (i == false) { return p; }
+			else { return NULL; }
+		}
 
-		return pHead;
+		return head;
 	}
 };
 
