@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <map>
 #include <functional>
+#include <stack>
 
 using namespace std;
 //
@@ -101,6 +102,40 @@ struct TreeNode {
 //};
 
 
+
+
+class Solution {
+public:
+	bool isInterleave(string s1, string s2, string s3) {
+		if (s1.size() + s2.size() != s3.size()) { return false; }
+		if (s3.size() == 0) { return true; }
+		int pos1 = 0, pos2 = 0, pos3 = 0;
+		stack<pair<int,int>> alt;
+		while (pos3 < s3.size()) {
+			if (s1[pos1] == s2[pos2] && s3[pos3] == s1[pos1]) {
+				alt.push({ pos1, pos2 });
+				++pos3;
+				++pos1;
+			}
+			else if (s3[pos3] == s1[pos1]) {
+				++pos3;
+				++pos1;
+			}
+			else if (s3[pos3] == s2[pos2]) {
+				++pos3;
+				++pos2;
+			}
+			else if (!alt.empty()){
+				pos2 = alt.top().second+1;
+				pos1 = alt.top().first;
+				alt.pop();
+				pos3 = pos1 + pos2;
+			}
+			else { return false; }
+		}
+		return true;
+	}
+};
 int main() {
 
 
