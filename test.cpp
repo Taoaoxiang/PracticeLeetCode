@@ -66,7 +66,39 @@ using namespace std;
 //};
 //
 
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+struct TreeNode {
+	int val;
+	TreeNode *left;
+	TreeNode *right;
+	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
 
+
+
+//class Solution {
+//public:
+//	vector<TreeNode*> generateTrees(int n) {
+//		vector<TreeNode*> rtn;
+//		for (int i = 1; i <= n; ++i) {
+//			TreeNode root(i);
+//			vector<int> tmp = {i};
+//
+//			reGen(root, i, i, n, tmp);
+//			rtn.push_back(&root);
+//		
+//		}
+//
+//	}
+//};
 
 
 int main() {
