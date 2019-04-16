@@ -85,21 +85,33 @@ struct TreeNode {
 
 
 
-//class Solution {
-//public:
-//	vector<TreeNode*> generateTrees(int n) {
-//		vector<TreeNode*> rtn;
-//		for (int i = 1; i <= n; ++i) {
-//			TreeNode root(i);
-//			vector<int> tmp = {i};
-//
-//			reGen(root, i, i, n, tmp);
-//			rtn.push_back(&root);
-//		
-//		}
-//
-//	}
-//};
+
+class Solution {
+public:
+	vector<TreeNode*> genTree(int iC, int n) {
+		vector<TreeNode*> rtn;
+		if (iC > n) { return { NULL }; }
+		else if (iC == n) { return { new TreeNode(iC) }; }
+		for (int i = iC; i <= n; ++i) {
+			vector<TreeNode*> vecL = genTree(iC, i-1);
+			vector<TreeNode*> vecR = genTree(i+1, n);
+			for (int jL = 0; jL < vecL.size();++jL) {
+				for (int jR = 0; jR < vecR.size();++jR) {
+					TreeNode* tmp = new TreeNode(i);
+					tmp->left = vecL[jL];
+					tmp->right = vecR[jR];
+					rtn.push_back(tmp);
+				}
+			}
+		}
+		return rtn;
+	}
+
+	vector<TreeNode*> generateTrees(int n) {
+		if (n == 0) { return {}; }
+		return genTree(1, n);
+	}
+};
 
 
 
@@ -107,7 +119,7 @@ struct TreeNode {
 
 int main() {
 
-
+	Solution().generateTrees(3);
 
 	std::cout << "Wuzup world!" << std::endl;
 	return 0;
