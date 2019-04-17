@@ -86,31 +86,6 @@ struct TreeNode {
 
 
 
-class Solution {
-public:
-	bool reL(TreeNode* root) {
-		if (root == NULL) { return true; }
-		if ((root->left != NULL) && (root->right != NULL) {}
-		
-		
-
-		if (root->left != NULL) {
-			if (root->left->val >= root->val) { return false; }
-			else { reSearch(root->left); }
-		}
-		if (root->right != NULL) {
-			if (root->right->val <= root->val) { return false; }
-			else { reSearch(root->right); }
-		}
-		return true;
-	}
-
-	bool isValidBST(TreeNode* root) {
-		if (root == NULL) { return true; }
-
-		return reSearch(root);
-	}
-};
 
 
 
