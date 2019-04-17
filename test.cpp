@@ -6,6 +6,7 @@
 #include <map>
 #include <functional>
 #include <stack>
+#include <queue>
 
 using namespace std;
 //
@@ -83,7 +84,25 @@ struct TreeNode {
 	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-
+class Solution {
+public:
+	vector<int> inorderTraversal(TreeNode* root) {
+		vector<int> rtn;
+		TreeNode* cur = root;
+		stack<TreeNode*> sTree;
+		while (sTree.size() > 0 || cur != NULL) {
+			while (cur != NULL) { 
+				sTree.push(cur);
+				cur = cur->left;
+			}
+			cur = sTree.top();
+			sTree.pop();
+			rtn.push_back(cur->val);
+			cur = cur->right;
+		}
+		return rtn;
+	}
+};
 
 
 
