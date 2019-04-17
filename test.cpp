@@ -88,17 +88,25 @@ class Solution {
 public:
 	vector<int> inorderTraversal(TreeNode* root) {
 		vector<int> rtn;
-		TreeNode* cur = root;
-		stack<TreeNode*> sTree;
-		while (sTree.size() > 0 || cur != NULL) {
-			while (cur != NULL) { 
-				sTree.push(cur);
-				cur = cur->left;
+		TreeNode* cur = root, *pre;
+		while (cur != NULL) {
+			if (cur->left == NULL) {
+				rtn.push_back(cur->val);
+				cur = cur->right;
 			}
-			cur = sTree.top();
-			sTree.pop();
-			rtn.push_back(cur->val);
-			cur = cur->right;
+			else {
+				pre = cur->left;
+				while (pre->right != NULL && pre->right != cur) { pre = pre->right; }
+				if (pre->right == NULL) {
+					pre->right = cur;
+					cur = cur->left;
+				}
+				else if (pre->right == cur) {
+					pre->right = NULL;
+					rtn.push_back(cur->val);
+					cur = cur->right;
+				}
+			}
 		}
 		return rtn;
 	}
