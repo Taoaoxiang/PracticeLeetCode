@@ -87,32 +87,23 @@ struct TreeNode {
 class Solution {
 public:
 	void recoverTree(TreeNode* root) {
-		
 		TreeNode* cur = root, *pre;
 		TreeNode* v1=NULL, *v2=NULL, *comp=NULL;
-		while (cur != NULL) {
-			if (comp != NULL && comp->val>=cur->val) {
+		
+		stack<TreeNode*> sTree;
+		while (sTree.size() > 0 || cur != NULL) {	
+			while (cur != NULL) {
+				sTree.push(cur);
+				cur = cur->left;
+			}
+			cur = sTree.top();
+			if (comp != NULL && comp->val >= cur->val) {
 				if (v1 == NULL) { v1 = comp; }
 				v2 = cur;
 			}
-
-			if (cur->left == NULL) {
-				comp = cur;
-				cur = cur->right;
-			}
-			else {
-				pre = cur->left;
-				while (pre->right != NULL && pre->right != cur) { pre = pre->right; }
-				if (pre->right == NULL) {
-					pre->right = cur;
-					cur = cur->left;
-				}
-				else if (pre->right == cur) {
-					pre->right = NULL;
-					comp = cur;
-					cur = cur->right;
-				}
-			}
+			comp = cur;
+			sTree.pop();
+			cur = cur->right;
 		}
 		int temp = v1->val;
 		v1->val = v2->val;
