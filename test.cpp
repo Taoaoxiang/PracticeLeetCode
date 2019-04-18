@@ -86,12 +86,18 @@ struct TreeNode {
 
 class Solution {
 public:
-	vector<int> inorderTraversal(TreeNode* root) {
-		vector<int> rtn;
+	void recoverTree(TreeNode* root) {
+		
 		TreeNode* cur = root, *pre;
+		TreeNode* v1=NULL, *v2=NULL, *comp=NULL;
 		while (cur != NULL) {
+			if (comp != NULL && comp->val>=cur->val) {
+				if (v1 == NULL) { v1 = comp; }
+				v2 = cur;
+			}
+
 			if (cur->left == NULL) {
-				rtn.push_back(cur->val);
+				comp = cur;
 				cur = cur->right;
 			}
 			else {
@@ -103,12 +109,16 @@ public:
 				}
 				else if (pre->right == cur) {
 					pre->right = NULL;
-					rtn.push_back(cur->val);
+					comp = cur;
 					cur = cur->right;
 				}
 			}
 		}
-		return rtn;
+		int temp = v1->val;
+		v1->val = v2->val;
+		v2->val = temp;
+
+		return;
 	}
 };
 
