@@ -86,30 +86,31 @@ struct TreeNode {
 
 class Solution {
 public:
-	void recoverTree(TreeNode* root) {
-		TreeNode* cur = root, *pre;
-		TreeNode* v1=NULL, *v2=NULL, *comp=NULL;
-		
-		stack<TreeNode*> sTree;
-		while (sTree.size() > 0 || cur != NULL) {	
-			while (cur != NULL) {
-				sTree.push(cur);
-				cur = cur->left;
+	vector<vector<int>> levelOrder(TreeNode* root) {
+		vector<vector<int>> rtn;
+		queue<TreeNode*> qTree;
+		TreeNode* t = NULL;
+		qTree.push(root);
+		while (qTree.size() > 0) {
+			queue<TreeNode*> qTemp;
+			vector<int> vTemp;
+			while (qTree.size() > 0) {
+				t = qTree.front();
+				qTree.pop();
+				if (t == NULL) { continue; }
+				else {
+					vTemp.push_back(t->val);
+					qTemp.push(t->left);
+					qTemp.push(t->right);
+				}
 			}
-			cur = sTree.top();
-			if (comp != NULL && comp->val >= cur->val) {
-				if (v1 == NULL) { v1 = comp; }
-				v2 = cur;
+			if (vTemp.size() > 0) {
+				rtn.push_back(vTemp);
+				qTree = qTemp;
 			}
-			comp = cur;
-			sTree.pop();
-			cur = cur->right;
 		}
-		int temp = v1->val;
-		v1->val = v2->val;
-		v2->val = temp;
 
-		return;
+		return rtn;
 	}
 };
 
