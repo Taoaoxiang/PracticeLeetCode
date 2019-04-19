@@ -86,34 +86,27 @@ struct TreeNode {
 
 class Solution {
 public:
-	vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-		vector<vector<int>> rtn;
+	int maxDepth(TreeNode* root) {
+		int rtn=0;
 		queue<TreeNode*> qTree;
-		int dir = 1;
 		TreeNode* t = NULL;
 		qTree.push(root);
 		while (qTree.size() > 0) {
 			queue<TreeNode*> qTemp;
-			vector<int> vTemp;
 			while (qTree.size() > 0) {
 				t = qTree.front();
 				qTree.pop();
 				if (t == NULL) { continue; }
 				else {
-					vTemp.push_back(t->val);
 					qTemp.push(t->left);
 					qTemp.push(t->right);
 				}
 			}
-			if (dir == -1) { reverse(vTemp.begin(), vTemp.end()); }
-			if (vTemp.size() > 0) {
-				rtn.push_back(vTemp);
-				qTree = qTemp;
-			}
-			dir *= -1;
+			++rtn;
+			qTree = qTemp;
 		}
 
-		return rtn;
+		return (rtn-1);
 	}
 };
 
