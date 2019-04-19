@@ -4,6 +4,7 @@
 #include <cmath>
 #include <algorithm>
 #include <map>
+#include <unordered_map>
 #include <functional>
 #include <stack>
 #include <queue>
@@ -86,27 +87,29 @@ struct TreeNode {
 
 class Solution {
 public:
-	int maxDepth(TreeNode* root) {
-		int rtn=0;
-		queue<TreeNode*> qTree;
-		TreeNode* t = NULL;
-		qTree.push(root);
-		while (qTree.size() > 0) {
-			queue<TreeNode*> qTemp;
-			while (qTree.size() > 0) {
-				t = qTree.front();
-				qTree.pop();
-				if (t == NULL) { continue; }
-				else {
-					qTemp.push(t->left);
-					qTemp.push(t->right);
-				}
-			}
-			++rtn;
-			qTree = qTemp;
-		}
+	int pos = 0;
+	TreeNode* reBuild(vector<int>& preorder, vector<int>& inorder, int iStart, int iEnd, unordered_map<int, int>& mp) {
+		if (iStart > iEnd) { return NULL; }
+		TreeNode* root = new TreeNode(preorder[pos]);
+		++pos;
+		if (iStart == iEnd) { return root; }
+		int inPos = mp[root->val];
+		//int inPos = find(inorder.begin()+iStart, inorder.begin()+iEnd, root->val) -inorder.begin();
+		//cout << "T0: pos=>" << pos << " iStart=>"  << iStart << ", inPos=>" <<inPos  << endl;
+		root->left = reBuild(preorder, inorder, iStart, inPos-1, mp);
+		root->right = reBuild(preorder, inorder, inPos + 1, iEnd, mp);
+		return root;
+	}
 
-		return (rtn-1);
+	TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+		if (preorder.size() == 0) { return NULL; }
+		else if (preorder.size() == 1) { return new TreeNode(preorder[0]); }
+		else {
+			unordered_map<int, int> mp;
+			for (int i = 0; i < inorder.size();++i) { mp[inorder[i]] = i; }
+			TreeNode* root = reBuild(preorder, inorder, 0, preorder.size()-1, mp);
+			return root;
+		}
 	}
 };
 
