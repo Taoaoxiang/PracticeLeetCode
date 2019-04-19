@@ -86,9 +86,10 @@ struct TreeNode {
 
 class Solution {
 public:
-	vector<vector<int>> levelOrder(TreeNode* root) {
+	vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
 		vector<vector<int>> rtn;
 		queue<TreeNode*> qTree;
+		int dir = 1;
 		TreeNode* t = NULL;
 		qTree.push(root);
 		while (qTree.size() > 0) {
@@ -104,10 +105,12 @@ public:
 					qTemp.push(t->right);
 				}
 			}
+			if (dir == -1) { reverse(vTemp.begin(), vTemp.end()); }
 			if (vTemp.size() > 0) {
 				rtn.push_back(vTemp);
 				qTree = qTemp;
 			}
+			dir *= -1;
 		}
 
 		return rtn;
