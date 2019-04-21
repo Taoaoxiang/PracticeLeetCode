@@ -68,7 +68,19 @@ using namespace std;
 //	}
 //};
 //
-
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+struct ListNode {
+	int val;
+	ListNode *next;
+	ListNode(int x) : val(x), next(NULL) {}
+};
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -85,52 +97,8 @@ struct TreeNode {
 	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
-class Solution {
-public:
-	TreeNode* sortedArrayToBST(vector<int>& nums) {
-		if (nums.size() == 0) { return NULL; }
-		queue<TreeNode*> qTrees;
-		queue<pair<int, int>> qPairs;
-		int iM = (0 + nums.size()-1) / 2;
-		TreeNode* root = new TreeNode(nums[iM]);
-		qTrees.push(root);
-		qPairs.push({0, iM -1});
-		qPairs.push({iM+1, nums.size()-1});
-		while (qTrees.size() > 0) {
-			queue<TreeNode*> qTreesTemp;
-			int mi = -1;
-			while (qTrees.size() > 0) {
-				TreeNode* ro = qTrees.front();
-				qTrees.pop();
-				pair<int, int> pL = qPairs.front();
-				qPairs.pop();
-				pair<int, int> pR = qPairs.front();
-				qPairs.pop();
-				if (pL.first <= pL.second) {
-					mi = (pL.first + pL.second) / 2;
-					ro->left = new TreeNode(nums[mi]);
-					if (pL.first < pL.second) {
-						qTreesTemp.push(ro->left);
-						qPairs.push({ pL.first, mi-1});
-						qPairs.push({ mi + 1, pL.second });
-					}
-				}
-				if (pR.first <= pR.second) {
-					mi = (pR.first + pR.second) / 2;
-					ro->right = new TreeNode(nums[mi]);
-					if (pR.first < pR.second) {
-						qTreesTemp.push(ro->right);
-						qPairs.push({ pR.first, mi - 1 });
-						qPairs.push({ mi + 1, pR.second });
-					}
-				}
-			}
-			qTrees = qTreesTemp;
-		}
 
-		return root;
-	}
-};
+
 
 
 
