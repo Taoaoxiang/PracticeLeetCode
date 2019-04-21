@@ -87,38 +87,23 @@ struct TreeNode {
 
 class Solution {
 public:
-	vector<vector<int>> levelOrderBottom(TreeNode* root) {
-		vector<vector<int>> rtn;
-		queue<TreeNode*> qTree;
-		TreeNode* t = NULL;
-		qTree.push(root);
-		while (qTree.size() > 0) {
-			queue<TreeNode*> qTemp;
-			vector<int> vTemp;
-			while (qTree.size() > 0) {
-				t = qTree.front();
-				qTree.pop();
-				if (t == NULL) { continue; }
-				else {
-					vTemp.push_back(t->val);
-					qTemp.push(t->left);
-					qTemp.push(t->right);
-				}
-			}
-			if (vTemp.size() > 0) {
-				rtn.insert(rtn.begin(), vTemp);
-				qTree = qTemp;
-			}
-		}
+	TreeNode* reSearch(int iStart, int iEnd, vector<int>& nums) {
+		//cout <<"iStart=>" << iStart <<", iEnd=>" <<iEnd<<endl;
+		if (iStart > iEnd) { return NULL; }
+		int iM = (iStart + iEnd) / 2;
+		TreeNode* root = new TreeNode(nums[iM]);
+		if (iStart == iEnd) { return root; }
+		root->left = reSearch(iStart, iM - 1, nums);
+		root->right = reSearch(iM + 1, iEnd, nums);
+		return root;
+	}
 
-		return rtn;
+	TreeNode* sortedArrayToBST(vector<int>& nums) {
+		if (nums.size() == 0) { return NULL; }
+		TreeNode* root = reSearch(0, nums.size() - 1, nums);
+		return root;
 	}
 };
-
-
-
-
-
 
 
 
