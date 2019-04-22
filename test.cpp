@@ -97,7 +97,25 @@ struct TreeNode {
 	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+class Solution {
+public:
+	bool reLen(TreeNode* tL, TreeNode* tR) {
+		if (tL == NULL) {
+			if (tR == NULL || (tR->left == NULL && tR->right == NULL)) { return true; }
+			else { return false; }
+		}
+		else if (tL->left == NULL && tL->right == NULL) {
+			if (tR == NULL || (tR->left == NULL && tR->right == NULL)) { return true; }
+			else { return false; }
+		
+		}
 
+	}
+
+	bool isBalanced(TreeNode* root) {
+		return reLen(root->left, root->right);
+	}
+};
 
 
 
