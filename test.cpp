@@ -99,22 +99,22 @@ struct TreeNode {
 
 class Solution {
 public:
-	int reLen(TreeNode* root, int lev) {
-		if (root == NULL) { return lev; }
-		int lenL = reLen(root->left, lev + 1);
-		int lenR = reLen(root->right, lev + 1);
-		int re = lenL - lenR;
-		if (re == 0) { return lenL; }
-		else if (re == 1) { return lenL; }
-		else if (re == -1) { return lenR; }
-		else { return 0; }
+	int reS(TreeNode* root, int lev) {
+		if (root->left == NULL && root->right == NULL) { return lev; }
+		else if (root->left == NULL && root->right != NULL) { return reS(root->right, lev + 1); }
+		else if (root->left != NULL && root->right == NULL) { return reS(root->left, lev + 1); }
+		else {
+			int lenL = reS(root->left, lev + 1);
+			int lenR = reS(root->right, lev + 1);
+			return (lenL < lenR ? lenL : lenR);
+		}
 	}
 
-	bool isBalanced(TreeNode* root) {
-		return reLen(root, 1);
+	int minDepth(TreeNode* root) {
+		if (root == NULL) { return 0; }
+		return reS(root, 1);
 	}
 };
-
 
 
 
