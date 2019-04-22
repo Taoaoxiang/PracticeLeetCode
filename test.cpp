@@ -99,21 +99,19 @@ struct TreeNode {
 
 class Solution {
 public:
-	bool reLen(TreeNode* tL, TreeNode* tR) {
-		if (tL == NULL) {
-			if (tR == NULL || (tR->left == NULL && tR->right == NULL)) { return true; }
-			else { return false; }
-		}
-		else if (tL->left == NULL && tL->right == NULL) {
-			if (tR == NULL || (tR->left == NULL && tR->right == NULL)) { return true; }
-			else { return false; }
-		
-		}
-
+	int reLen(TreeNode* root, int lev) {
+		if (root == NULL) { return lev; }
+		int lenL = reLen(root->left, lev + 1);
+		int lenR = reLen(root->right, lev + 1);
+		int re = lenL - lenR;
+		if (re == 0) { return lenL; }
+		else if (re == 1) { return lenL; }
+		else if (re == -1) { return lenR; }
+		else { return 0; }
 	}
 
 	bool isBalanced(TreeNode* root) {
-		return reLen(root->left, root->right);
+		return reLen(root, 1);
 	}
 };
 
