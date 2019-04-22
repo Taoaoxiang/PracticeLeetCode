@@ -99,23 +99,42 @@ struct TreeNode {
 
 class Solution {
 public:
-	int reS(TreeNode* root, int lev) {
-		if (root->left == NULL && root->right == NULL) { return lev; }
-		else if (root->left == NULL && root->right != NULL) { return reS(root->right, lev + 1); }
-		else if (root->left != NULL && root->right == NULL) { return reS(root->left, lev + 1); }
-		else {
-			int lenL = reS(root->left, lev + 1);
-			int lenR = reS(root->right, lev + 1);
-			return (lenL < lenR ? lenL : lenR);
+	vector<vector<int>> pathSum(TreeNode* root, int sum) {
+		vector<vector<int>> rtn;
+		if (root == NULL) { return rtn; }
+		stack<TreeNode*> sTrees;
+		stack<vector<int>> sVe;
+		sTrees.push(root);
+		sVe.push({});
+		while (sTrees.size() > 0) {
+			TreeNode* ro = sTrees.top();
+			vector<int> ve = sVe.top();
+			sTrees.pop();
+			sVe.pop();
+			ve.push_back(ro->val);
+			int sum2 = 0;
+			for (int i = 0; i < ve.size();++i) { sum2 += ve[i]; }
+			if (ro->left == NULL && ro->right == NULL) {
+				if (sum == sum2) { rtn.push_back(ve); }
+			}
+			else if (ro->left != NULL && ro->right == NULL) {
+				sVe.push(ve);
+				sTrees.push(ro->left);
+			}
+			else if (ro->left == NULL && ro->right != NULL) {
+				sVe.push(ve);
+				sTrees.push(ro->right);
+			}
+			else {
+				sVe.push(ve);
+				sVe.push(ve);
+				sTrees.push(ro->left);
+				sTrees.push(ro->right);
+			}
 		}
-	}
-
-	int minDepth(TreeNode* root) {
-		if (root == NULL) { return 0; }
-		return reS(root, 1);
+		return rtn;
 	}
 };
-
 
 
 int main() {
