@@ -65,45 +65,27 @@ class Solution {
 public:
 	Node* connect(Node* root) {
 		if (root == NULL) { return root; }
-		Node* nHead = root;
-		while (nHead != NULL) {
-			Node* n0 = nHead;
-			nHead = NULL;
-			Node* nLast = NULL;
-			while (n0 != NULL && (n0->left == NULL && n0->right == NULL)) { n0 = n0->next; }
-			if (n0 == NULL) { continue; }
-			if (n0->left != NULL && n0->right == NULL) { 
-				nHead = n0->left; 
+		Node* n0 = root;
+		Node* nLast = NULL;
+		Node* nHead = root->left;
+		while (n0 != NULL || nHead !=NULL) {	
+			if (n0 == NULL) { 
+				n0 = nHead;
+				nLast = NULL;
+				nHead = NULL;
+				continue; 
+			}
+			if (n0->left != NULL) {
+				if (nLast != NULL) { nLast->next = n0->left; }
+				else { nHead = n0->left; }
 				nLast = n0->left;
 			}
-			else if (n0->left == NULL && n0->right != NULL) { 
-				nHead = n0->right; 
+			if (n0->right != NULL) {
+				if (nLast != NULL) { nLast->next = n0->right; }
+				else { nHead = n0->right; }
 				nLast = n0->right;
 			}
-			else if (n0->left != NULL && n0->right != NULL) { 
-				n0->left->next = n0->right;
-				nHead = n0->left; 
-				nLast = n0->right;
-			}
-			Node* n1 = n0->next;
-			while (n1 != NULL) {
-				while (n1 != NULL && (n1->left == NULL && n1->right == NULL)) { n1 = n1->next; }
-				if (n1 == NULL) { continue; }
-				if (n1->left != NULL && n1->right == NULL) {
-					nLast->next = n1->left;
-					nLast = n1->left;
-				}
-				else if (n1->left == NULL && n1->right != NULL) {
-					nLast->next = n1->right;
-					nLast = n1->right;
-				}
-				else if (n1->left != NULL && n1->right != NULL) {
-					nLast->next = n1->left;
-					n1->left->next = n1->right;
-					nLast = n1->right;
-				}
-				n1 = n1->next;
-			}
+			n0 = n0->next;
 		}
 		return root;
 	}

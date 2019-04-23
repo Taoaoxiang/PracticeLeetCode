@@ -1,3 +1,36 @@
+//Runtime: 428 ms, faster than 43.56% of C++ online submissions for Populating Next Right Pointers in Each Node II.
+//Memory Usage : 66.4 MB, less than 56.31% of C++ online submissions for Populating Next Right Pointers in Each Node II.
+
+class Solution {
+public:
+	Node* connect(Node* root) {
+		if (root == NULL) { return root; }
+		Node* n0 = root;
+		Node* nLast = NULL;
+		Node* nHead = root->left;
+		while (n0 != NULL || nHead != NULL) {
+			if (n0 == NULL) {
+				n0 = nHead;
+				nLast = NULL;
+				nHead = NULL;
+				continue;
+			}
+			if (n0->left != NULL) {
+				if (nLast != NULL) { nLast->next = n0->left; }
+				else { nHead = n0->left; }
+				nLast = n0->left;
+			}
+			if (n0->right != NULL) {
+				if (nLast != NULL) { nLast->next = n0->right; }
+				else { nHead = n0->right; }
+				nLast = n0->right;
+			}
+			n0 = n0->next;
+		}
+		return root;
+	}
+};
+
 //Runtime: 424 ms, faster than 56.18% of C++ online submissions for Populating Next Right Pointers in Each Node II.
 //Memory Usage : 66.5 MB, less than 55.34% of C++ online submissions for Populating Next Right Pointers in Each Node II.
 
