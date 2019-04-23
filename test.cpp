@@ -60,40 +60,26 @@
 //};
 //
 
-
 class Solution {
 public:
-	Node* connect(Node* root) {
-		if (root == NULL) { return root; }
-		Node* n0 = root;
-		Node* nLast = NULL;
-		Node* nHead = root->left;
-		while (n0 != NULL || nHead !=NULL) {	
-			if (n0 == NULL) { 
-				n0 = nHead;
-				nLast = NULL;
-				nHead = NULL;
-				continue; 
+	vector<int> getRow(int rowIndex) {
+		vector<int> rtn = { 1 };
+		if (rowIndex == 0) { return rtn; }
+		for (int i = 1; i <= rowIndex; ++i) {
+			rtn.insert(rtn.begin(), 0);
+			for (int pos = 0; pos < rtn.size()-1; ++pos) {
+				rtn[pos] += rtn[pos + 1];
 			}
-			if (n0->left != NULL) {
-				if (nLast != NULL) { nLast->next = n0->left; }
-				else { nHead = n0->left; }
-				nLast = n0->left;
-			}
-			if (n0->right != NULL) {
-				if (nLast != NULL) { nLast->next = n0->right; }
-				else { nHead = n0->right; }
-				nLast = n0->right;
-			}
-			n0 = n0->next;
 		}
-		return root;
+		return rtn;
 	}
 };
 
+
+
 int main() {
 
-
+	Solution().generate(5);
 
 	std::cout << "Wuzup world!" << std::endl;
 	return 0;
