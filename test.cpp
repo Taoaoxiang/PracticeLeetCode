@@ -1,15 +1,6 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <cmath>
-#include <algorithm>
-#include <map>
-#include <unordered_map>
-#include <functional>
-#include <stack>
-#include <queue>
+#include "include_LeetCode.h"
 
-using namespace std;
+
 //
 //class Solution {
 //public:
@@ -68,36 +59,55 @@ using namespace std;
 //	}
 //};
 //
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
-struct ListNode {
-	int val;
-	ListNode *next;
-	ListNode(int x) : val(x), next(NULL) {}
-};
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-struct TreeNode {
-	int val;
-	TreeNode *left;
-	TreeNode *right;
-	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-};
 
 
+class Solution {
+public:
+	Node* connect(Node* root) {
+		if (root == NULL) { return root; }
+		Node* nHead = root;
+		while (nHead != NULL) {
+			Node* n0 = nHead;
+			nHead = NULL;
+			Node* nLast = NULL;
+			while (n0 != NULL && (n0->left == NULL && n0->right == NULL)) { n0 = n0->next; }
+			if (n0 == NULL) { continue; }
+			if (n0->left != NULL && n0->right == NULL) { 
+				nHead = n0->left; 
+				nLast = n0->left;
+			}
+			else if (n0->left == NULL && n0->right != NULL) { 
+				nHead = n0->right; 
+				nLast = n0->right;
+			}
+			else if (n0->left != NULL && n0->right != NULL) { 
+				n0->left->next = n0->right;
+				nHead = n0->left; 
+				nLast = n0->right;
+			}
+			Node* n1 = n0->next;
+			while (n1 != NULL) {
+				while (n1 != NULL && (n1->left == NULL && n1->right == NULL)) { n1 = n1->next; }
+				if (n1 == NULL) { continue; }
+				if (n1->left != NULL && n1->right == NULL) {
+					nLast->next = n1->left;
+					nLast = n1->left;
+				}
+				else if (n1->left == NULL && n1->right != NULL) {
+					nLast->next = n1->right;
+					nLast = n1->right;
+				}
+				else if (n1->left != NULL && n1->right != NULL) {
+					nLast->next = n1->left;
+					n1->left->next = n1->right;
+					nLast = n1->right;
+				}
+				n1 = n1->next;
+			}
+		}
+		return root;
+	}
+};
 
 int main() {
 
