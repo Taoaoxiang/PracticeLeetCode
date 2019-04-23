@@ -60,26 +60,12 @@
 //};
 //
 
-class Solution {
-public:
-	vector<int> getRow(int rowIndex) {
-		vector<int> rtn = { 1 };
-		if (rowIndex == 0) { return rtn; }
-		for (int i = 1; i <= rowIndex; ++i) {
-			rtn.insert(rtn.begin(), 0);
-			for (int pos = 0; pos < rtn.size()-1; ++pos) {
-				rtn[pos] += rtn[pos + 1];
-			}
-		}
-		return rtn;
-	}
-};
 
 
 
 int main() {
 
-	Solution().generate(5);
+
 
 	std::cout << "Wuzup world!" << std::endl;
 	return 0;
