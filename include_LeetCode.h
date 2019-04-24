@@ -77,3 +77,27 @@ public:
 		next = _next;
 	}
 };
+
+class TRIE {
+	bool end = false;
+	unordered_map<char, TRIE*> children;
+public:
+	TRIE() {}
+	void insert(string &word) {
+		TRIE* root = this;
+		if (word.size() == 0) { return; }
+		for (int i = 0; i < word.size();++i) {
+			if (root->children[word[i]] == NULL) { root->children[word[i]] = new TRIE(); }
+			root = root->children[word[i]];
+		}
+		root->end = true;
+	}
+	bool find(string &word) {
+		TRIE* root = this;
+		for (int i = 0; i < word.size();++i) {
+			root = root->children[word[i]];
+			if (root == NULL) { return false; }
+		}
+		return root->end;
+	}
+};
