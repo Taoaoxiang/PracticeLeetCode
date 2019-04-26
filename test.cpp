@@ -35,22 +35,26 @@
 //	}
 //};
 
+
+
+
 class Solution {
 public:
-	int singleNumber(vector<int>& nums) {
-		int r = 0;
-		for (int i = 0; i < nums.size(); ++i) {
-			r ^= nums[i];
-		}
-		return r;
+	int reS(TreeNode* root, int n) {
+		if (root == NULL) { return 0; }
+		n = n * 10 + root->val;
+		if (root->left == NULL && root->right == NULL) { return n; }
+		else { return reS(root->left, n) + reS(root->right, n); }
+	}
+	int sumNumbers(TreeNode* root) {
+		return reS(root, 0);
 	}
 };
 
 
 int main() {
 
-	vector<int> nums = { 2, 2, 1 };
-	Solution().singleNumber(nums);
+
 
 	std::cout << "Wuzup world!" << std::endl;
 	return 0;
