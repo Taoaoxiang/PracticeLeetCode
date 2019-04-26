@@ -38,18 +38,6 @@
 
 
 
-class Solution {
-public:
-	int reS(TreeNode* root, int n) {
-		if (root == NULL) { return 0; }
-		n = n * 10 + root->val;
-		if (root->left == NULL && root->right == NULL) { return n; }
-		else { return reS(root->left, n) + reS(root->right, n); }
-	}
-	int sumNumbers(TreeNode* root) {
-		return reS(root, 0);
-	}
-};
 
 
 int main() {
