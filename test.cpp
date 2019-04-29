@@ -35,45 +35,41 @@
 //	}
 //};
 
+/*
+// Definition for a Node.
+class Node {
+public:
+	int val;
+	vector<Node*> neighbors;
+
+	Node() {}
+
+	Node(int _val, vector<Node*> _neighbors) {
+		val = _val;
+		neighbors = _neighbors;
+	}
+};
+*/
 class Solution {
 public:
-	vector<vector<bool>>vAll;
-	int rowSize, colSize;
-	void reS(int r, int c, vector<vector<char>>& board) {
-		if (r >= rowSize || c >= colSize || r <0 || c <0) { return; }
-		if (board[r][c] == 'O' && vAll[r][c] == false) {
-			vAll[r][c] = true;
-			reS(r-1, c, board);
-			reS(r+1, c, board);
-			reS(r, c-1, board);
-			reS(r, c+1, board);
-		}
-		return;
+	Node* cloneGraph(Node* node) {
+
 	}
+};
 
-	void solve(vector<vector<char>>& board) {
-		rowSize = board.size();
-		if (rowSize <= 2) { return; }
-		colSize = board[0].size();
-		if (colSize <= 2) { return; }
-		vAll= vector<vector<bool>>(rowSize, vector<bool>(colSize, false));
-		for (int r = 1; r < rowSize - 1; ++r) {
-			for (int c = 0; c < colSize;c += colSize - 1) { 
-				reS(r, c, board); 
-			}
-		}
-		for (int r = 0; r < rowSize ; r += rowSize - 1) {
-			for (int c = 0; c < colSize; ++c) { 
-				reS(r, c, board); 
-			}
-		}
-		for (int r = 1; r < rowSize - 1; ++r) {
-			for (int c = 1; c < colSize - 1; ++c) {
-				if (board[r][c] == 'O' && vAll[r][c] == false) { board[r][c] = 'X'; }
-			}
-		}
+class Solution {
+public:
+	ListNode* detectCycle(ListNode* head) {
+		if (head == NULL || head->next == NULL) { return NULL; }
 
-		return;
+
+		unordered_set<ListNode*> uS;
+		while (head != NULL) {
+			if (uS.find(head) != uS.end()) { return head; }
+			else { uS.insert(head); }
+			head = head->next;
+		}
+		return head;
 	}
 };
 

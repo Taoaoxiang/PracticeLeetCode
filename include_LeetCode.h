@@ -45,41 +45,70 @@ struct TreeNode {
 	TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
 
+///*
+//// Definition for a Node.
+//class Node {
+//public:
+//	int val;
+//	Node* left;
+//	Node* right;
+//	Node* next;
+//
+//	Node() {}
+//
+//	Node(int _val, Node* _left, Node* _right, Node* _next) {
+//		val = _val;
+//		left = _left;
+//		right = _right;
+//		next = _next;
+//	}
+//};
+//*/
+//class Node {
+//public:
+//	int val;
+//	Node* left;
+//	Node* right;
+//	Node* next;
+//
+//	Node() {}
+//
+//	Node(int _val, Node* _left, Node* _right, Node* _next) {
+//		val = _val;
+//		left = _left;
+//		right = _right;
+//		next = _next;
+//	}
+//};
+
 /*
 // Definition for a Node.
 class Node {
 public:
 	int val;
-	Node* left;
-	Node* right;
-	Node* next;
+	vector<Node*> neighbors;
 
 	Node() {}
 
-	Node(int _val, Node* _left, Node* _right, Node* _next) {
+	Node(int _val, vector<Node*> _neighbors) {
 		val = _val;
-		left = _left;
-		right = _right;
-		next = _next;
+		neighbors = _neighbors;
 	}
 };
 */
 class Node {
 public:
 	int val;
-	Node* left;
-	Node* right;
-	Node* next;
+	vector<Node*> neighbors;
 
 	Node() {}
 
-	Node(int _val, Node* _left, Node* _right, Node* _next) {
+	Node(int _val, vector<Node*> _neighbors) {
 		val = _val;
-		left = _left;
-		right = _right;
-		next = _next;
+		neighbors = _neighbors;
 	}
 };
+
 
 class TRIE {
 	bool end = false;
