@@ -59,24 +59,21 @@ public:
 
 class Solution {
 public:
-	ListNode* detectCycle(ListNode* head) {
-		if (head == NULL || head->next == NULL) { return NULL; }
-		ListNode* pFast = head->next->next, *pSlow = head->next;
-		while (pFast != NULL) {
-			if (pFast == NULL || pFast->next == NULL) { return NULL; }
-			if (pSlow == pFast) { 
-				pSlow = head;
-				while (pSlow != pFast) {
-					pSlow = pSlow->next;
-					pFast = pFast->next;
-				}
-				return pSlow; }
-			else {
-				pSlow = pSlow->next;
-				pFast = pFast->next->next;
-			}
+	ListNode* insertionSortList(ListNode* head) {
+		if (head == NULL) { return head; }
+		ListNode* p = head;
+		vector<ListNode*> vAll;
+		while (p != NULL) { 
+			vAll.push_back(p);
+			p = p->next;
 		}
-		return NULL;
+		sort(vAll.begin(), vAll.end(), [](ListNode * a, ListNode * b) {return a->val < b->val;});
+		for (int i = 0; i < vAll.size()-1; ++i) {
+			vAll[i]->next = vAll[i + 1];
+		}
+		vAll[vAll.size() - 1]->next = NULL;
+
+		return vAll[0];
 	}
 };
 
