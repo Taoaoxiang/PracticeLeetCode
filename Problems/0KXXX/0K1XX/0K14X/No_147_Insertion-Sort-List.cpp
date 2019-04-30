@@ -23,6 +23,38 @@
 //Output: -1->0->3->4->5
 //
 
+//Runtime: 20 ms, faster than 98.81% of C++ online submissions for Insertion Sort List.
+//Memory Usage : 9.8 MB, less than 13.77% of C++ online submissions for Insertion Sort List.
+class Solution {
+public:
+	ListNode* insertionSortList(ListNode* head) {
+		ListNode* pD = new ListNode(0);
+		pD->next = head;
+		ListNode* pPre = pD, * pCur = head;
+		while (pCur != NULL) {
+			//ListNode* p = pPre;
+			//cout << "T0: ";
+			//while (p != NULL) {
+			//	cout << p->val << ",";
+			//	p = p->next;
+			//}
+			//cout << endl;
+			if (pCur->next && pCur->next->val < pCur->val) {
+				while (pPre->next && pPre->next->val < pCur->next->val) {
+					pPre = pPre->next;
+				}
+				ListNode* tmp = pCur->next;
+				pCur->next = pCur->next->next;
+				tmp->next = pPre->next;
+				pPre->next = tmp;
+				pPre = pD;
+			}
+			else { pCur = pCur->next; }
+		}
+		return pD->next;
+	}
+};
+
 //Runtime: 16 ms, faster than 100.00% of C++ online submissions for Insertion Sort List.
 //Memory Usage : 10.1 MB, less than 5.07% of C++ online submissions for Insertion Sort List.
 

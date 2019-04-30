@@ -60,20 +60,30 @@ public:
 class Solution {
 public:
 	ListNode* insertionSortList(ListNode* head) {
-		if (head == NULL) { return head; }
-		ListNode* p = head;
-		vector<ListNode*> vAll;
-		while (p != NULL) { 
-			vAll.push_back(p);
-			p = p->next;
+		ListNode* pD = new ListNode(0);
+		pD->next = head;
+		ListNode* pPre = pD, * pCur = head;
+		while (pCur != NULL) {
+			//ListNode* p = pPre;
+			//cout << "T0: ";
+			//while (p != NULL) {
+			//	cout << p->val << ",";
+			//	p = p->next;
+			//}
+			//cout << endl;
+			if (pCur->next && pCur->next->val < pCur->val) {
+				while (pPre->next && pPre->next->val < pCur->next->val) {
+					pPre = pPre->next;
+				}
+				ListNode* tmp = pCur->next;
+				pCur->next = pCur->next->next;
+				tmp->next = pPre->next;
+				pPre->next = tmp;
+				pPre = pD;
+			}
+			else { pCur = pCur->next; }
 		}
-		sort(vAll.begin(), vAll.end(), [](ListNode * a, ListNode * b) {return a->val < b->val;});
-		for (int i = 0; i < vAll.size()-1; ++i) {
-			vAll[i]->next = vAll[i + 1];
-		}
-		vAll[vAll.size() - 1]->next = NULL;
-
-		return vAll[0];
+		return pD->next;
 	}
 };
 
