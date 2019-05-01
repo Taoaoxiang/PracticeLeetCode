@@ -57,44 +57,6 @@ public:
 	}
 };
 
-class Solution {
-public:
-	ListNode* merge(ListNode* h1, ListNode* h2) {
-		ListNode* p0 = new ListNode(0), *p = p0;
-		while (h1 != NULL && h2 != NULL) {
-			if (h1->val < h2->val) {
-				p->next = h1;
-				h1 = h1->next;
-			}
-			else {
-				p->next = h2;
-				h2 = h2->next;
-			}
-			p = p->next;
-		}
-		if (h1 != NULL) { p->next = h1; }
-		if (h2 != NULL) { p->next = h2; }
-		return p0->next;
-	}
-
-	ListNode* sortList(ListNode* head) {
-		if (head == NULL || head->next == NULL) { return head; }
-		//cout << "T0: " << head->val << endl;
-		ListNode* p0 = new ListNode(0);
-		p0->next = head;
-		ListNode* p1 = head;
-		while (p1!=NULL && p1->next != NULL) {
-			p0 = p0->next;
-			p1 = p1->next->next;
-		}
-		ListNode* p2 = p0->next;
-		p0->next = NULL;
-		ListNode* l0 = sortList(head);
-		ListNode* l1 = sortList(p2);
-		return merge(l0, l1);
-	}
-};
-
 
 
 
