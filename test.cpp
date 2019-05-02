@@ -57,34 +57,7 @@ public:
 	}
 };
 
-class Solution {
-public:
-	vector<int> preorderTraversal(TreeNode* root) {
-		vector<int> rtn;
-		TreeNode* cur = root, *pre;
-		while (cur != NULL) {
-			pre = cur->left;
-			if (pre == NULL) {
-				rtn.push_back(cur->val);
-				cur = cur->right;
-			}
-			else {
-				while (pre->right != NULL && pre->right != cur) { pre = pre->right; }
-				if (pre->right == NULL) {
-					pre->right = cur;
-					rtn.push_back(cur->val);
-					cur = cur->left;
-				}
-				else if (pre->right == cur) {
-					pre->right = NULL;
-					cur = cur->right;
-				}
-			}
-		}
 
-		return rtn;
-	}
-};
 
 
 int main() {
