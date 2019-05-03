@@ -58,6 +58,65 @@ public:
 };
 
 
+class Solution {
+public:
+	vector<string> wordBreak(string s, vector<string>& wordDict) {
+
+	}
+};
+
+class Solution {
+public:
+	vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+		if (find(wordList.begin(), wordList.end(), endWord) == wordList.end()) { return {}; }
+
+		return {};
+	}
+};
+
+
+/*
+// Definition for a Node.
+class Node {
+public:
+	int val;
+	vector<Node*> neighbors;
+
+	Node() {}
+
+	Node(int _val, vector<Node*> _neighbors) {
+		val = _val;
+		neighbors = _neighbors;
+	}
+};
+*/
+
+
+
+class Solution {
+public:
+	Node* cloneGraph(Node* node) {
+		if (node == NULL) { return NULL; }
+		unordered_map<Node*, Node*> uAll;
+		Node* head = new Node(node->val, {});
+		uAll[node] = head;
+		queue<Node*> qNodes;
+		qNodes.push(node);
+		while (!qNodes.empty()) {
+			Node* cur = qNodes.front();
+			qNodes.pop();
+			for (int i = 0; i < cur->neighbors.size(); ++i) {
+				Node* nb = cur->neighbors[i];
+				if (uAll.find(nb) == uAll.end()) {
+					uAll[nb] = new Node(nb->val, {});
+					qNodes.push(nb);
+				}
+				uAll[cur]->neighbors.push_back(uAll[nb]);
+			}
+		}
+		return head;
+	}
+};
 
 int main() {
 
