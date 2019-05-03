@@ -81,31 +81,64 @@ struct TreeNode {
 //	}
 //};
 
+///*
+//// Definition for a Node.
+//class Node {
+//public:
+//	int val;
+//	vector<Node*> neighbors;
+//
+//	Node() {}
+//
+//	Node(int _val, vector<Node*> _neighbors) {
+//		val = _val;
+//		neighbors = _neighbors;
+//	}
+//};
+//*/
+//class Node {
+//public:
+//	int val;
+//	vector<Node*> neighbors;
+//
+//	Node() {}
+//
+//	Node(int _val, vector<Node*> _neighbors) {
+//		val = _val;
+//		neighbors = _neighbors;
+//	}
+//};
+
+
 /*
 // Definition for a Node.
 class Node {
 public:
 	int val;
-	vector<Node*> neighbors;
+	Node* next;
+	Node* random;
 
 	Node() {}
 
-	Node(int _val, vector<Node*> _neighbors) {
+	Node(int _val, Node* _next, Node* _random) {
 		val = _val;
-		neighbors = _neighbors;
+		next = _next;
+		random = _random;
 	}
 };
 */
 class Node {
 public:
 	int val;
-	vector<Node*> neighbors;
+	Node* next;
+	Node* random;
 
 	Node() {}
 
-	Node(int _val, vector<Node*> _neighbors) {
+	Node(int _val, Node* _next, Node* _random) {
 		val = _val;
-		neighbors = _neighbors;
+		next = _next;
+		random = _random;
 	}
 };
 

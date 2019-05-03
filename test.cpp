@@ -35,28 +35,6 @@
 //	}
 //};
 
-/*
-// Definition for a Node.
-class Node {
-public:
-	int val;
-	vector<Node*> neighbors;
-
-	Node() {}
-
-	Node(int _val, vector<Node*> _neighbors) {
-		val = _val;
-		neighbors = _neighbors;
-	}
-};
-*/
-class Solution {
-public:
-	Node* cloneGraph(Node* node) {
-
-	}
-};
-
 
 class Solution {
 public:
@@ -80,43 +58,45 @@ public:
 class Node {
 public:
 	int val;
-	vector<Node*> neighbors;
+	Node* next;
+	Node* random;
 
 	Node() {}
 
-	Node(int _val, vector<Node*> _neighbors) {
+	Node(int _val, Node* _next, Node* _random) {
 		val = _val;
-		neighbors = _neighbors;
+		next = _next;
+		random = _random;
 	}
 };
 */
-
-
-
 class Solution {
 public:
-	Node* cloneGraph(Node* node) {
-		if (node == NULL) { return NULL; }
+	Node* copyRandomList(Node* head) {
+		if (head == NULL) { return NULL; }
+		Node* p = head;
 		unordered_map<Node*, Node*> uAll;
-		Node* head = new Node(node->val, {});
-		uAll[node] = head;
-		queue<Node*> qNodes;
-		qNodes.push(node);
-		while (!qNodes.empty()) {
-			Node* cur = qNodes.front();
-			qNodes.pop();
-			for (int i = 0; i < cur->neighbors.size(); ++i) {
-				Node* nb = cur->neighbors[i];
-				if (uAll.find(nb) == uAll.end()) {
-					uAll[nb] = new Node(nb->val, {});
-					qNodes.push(nb);
+		uAll[head] = new Node(head->val, NULL, NULL);
+		while (p != NULL) {
+			if (p->next != NULL) {
+				if (uAll.find(p->next) == uAll.end()) {
+					uAll[p->next] = new Node(p->next->val, NULL, NULL);
 				}
-				uAll[cur]->neighbors.push_back(uAll[nb]);
+				uAll[p]->next = uAll[p->next];
 			}
+			if (p->random != NULL) {
+				if (uAll.find(p->random) == uAll.end()) {
+					uAll[p->random] = new Node(p->random->val, NULL, NULL);
+				}
+				uAll[p]->random = uAll[p->random];
+			}		
+			p = p->next;
 		}
-		return head;
+		return uAll[head];
 	}
 };
+
+
 
 int main() {
 
