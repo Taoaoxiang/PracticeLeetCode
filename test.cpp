@@ -53,46 +53,17 @@ public:
 };
 
 
-/*
-// Definition for a Node.
-class Node {
-public:
-	int val;
-	Node* next;
-	Node* random;
-
-	Node() {}
-
-	Node(int _val, Node* _next, Node* _random) {
-		val = _val;
-		next = _next;
-		random = _random;
-	}
-};
-*/
 class Solution {
 public:
-	Node* copyRandomList(Node* head) {
-		if (head == NULL) { return NULL; }
-		Node* p = head;
-		unordered_map<Node*, Node*> uAll;
-		uAll[head] = new Node(head->val, NULL, NULL);
-		while (p != NULL) {
-			if (p->next != NULL) {
-				if (uAll.find(p->next) == uAll.end()) {
-					uAll[p->next] = new Node(p->next->val, NULL, NULL);
-				}
-				uAll[p]->next = uAll[p->next];
-			}
-			if (p->random != NULL) {
-				if (uAll.find(p->random) == uAll.end()) {
-					uAll[p->random] = new Node(p->random->val, NULL, NULL);
-				}
-				uAll[p]->random = uAll[p->random];
-			}		
-			p = p->next;
-		}
-		return uAll[head];
+	int rtn = 0;
+
+	int minCut(string s) {
+		int sSize = s.size();
+		if (sSize == 0) { return -1; }
+		else if (sSize == 1) { return 0; }
+		
+		res(0, s, rtn);
+		return rtn;
 	}
 };
 
