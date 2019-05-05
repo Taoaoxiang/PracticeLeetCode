@@ -53,19 +53,7 @@ public:
 };
 
 
-class Solution {
-public:
-	int rtn = 0;
-
-	int minCut(string s) {
-		int sSize = s.size();
-		if (sSize == 0) { return -1; }
-		else if (sSize == 1) { return 0; }
-		
-		res(0, s, rtn);
-		return rtn;
-	}
-};
+/////
 
 
 
