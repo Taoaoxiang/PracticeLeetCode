@@ -36,83 +36,59 @@
 //};
 
 
-class Solution {
-public:
-	vector<string> wordBreak(string s, vector<string>& wordDict) {
-
-	}
-};
 
 class Solution {
 public:
-	string ssEnd;
-	int ssSize;
-	unordered_map<string, bool> uMap;
-	vector<vector<string>> rtn;
-	struct StrNode
-	{
-		string val;
-		vector<StrNode*> friends;
-		StrNode(string s) : val(s) {}
-	};
-	
-	void reS(string curWord, vector<string>& vec, vector<string>& wordList) {
-		if (rtn.size() > 0 && (vec.size() >= rtn.front().size())) { return; }
-		if (curWord == ssEnd) {
-			vec.push_back(curWord);
-			if (rtn.size() == 0 || (rtn.front().size() == vec.size())) { rtn.push_back(vec); }
-			else if (rtn.front().size() > vec.size()) {
-				rtn.clear();
-				rtn.push_back(vec);
-			}
-			vec.pop_back();
-			return;
-		}
-		for (int i = 0; i < ssSize; ++i) {
-			for (char c = 'a'; c <= 'z'; ++c) {
-				string s(curWord);
-				s[i] = c;
-				if (uMap.find(s) != uMap.end() && uMap[s] == false) {
-					uMap[s] = true;
-					reS(s, vec, wordList);
-					uMap[s] = false;
-				}
-			
-			}
-		}
-	}
-
 
 	vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
 		if (find(wordList.begin(), wordList.end(), endWord) == wordList.end()) { return {}; }
-		StrNode* sBegin = new StrNode(beginWord);
-		ssEnd = endWord;
-		ssSize = beginWord.size();
-		vector<string> vec;
-		unordered_set<string> uAll(wordList.begin(), wordList.end());
-		
-		for (int i = 0; i < wordList.size(); ++i) { uMap.insert({ wordList[i], false }); }
-		reS(beginWord, vec, wordList);
-
-
-		for (int i = 0; i < wordList.size(); ++i) {
-			for (int i2 = 0; i2 < wordList[i].size(); ++i2) {
+		if (beginWord == endWord) { return { {endWord} }; }
+		unordered_map<string, unordered_set<string>> uStr;
+		unordered_map<string, bool> uBool;
+		vector<vector<string>> rtn;
+		unordered_set<string> uSet(wordList.begin(), wordList.end());
+		uSet.insert(beginWord);
+		unordered_set<string>::iterator it;
+		for (it = uSet.begin(); it != uSet.end(); ++it) {
+			uStr[*it] = {};
+			uBool[*it] = false;
+			for (int i = 0; i < (*it).size(); ++i) {
+				string s(*it);
 				for (char c = 'a'; c <= 'z'; ++c) {
-
-					if (c != wordList[i][i2]) {
-						string s = wordList[i];
-						s[i2] = c;
-						if (uAll.find(s) != uAll.end()) {
-						
-						
-						}
-					}
-				
+					s[i] = c;
+					if (s != *it && uSet.find(s) != uSet.end()) { uStr[*it].insert(s); }
 				}
 			}
 		}
+		queue<vector<string>> qVec;
+		qVec.push({ beginWord });
+		while (!qVec.empty()) {
+			//cout << "T2: .size()=>" << qVec.size() << endl;
+			if (!rtn.empty()) { break; }
+			queue<vector<string>> qVecTemp;
+			unordered_set<string> uBTemp;
+			while (!qVec.empty()) {
+				vector<string> vTemp = qVec.front();
+				qVec.pop();
+				string sTemp = vTemp.back();
+				for (it = uStr[sTemp].begin(); it != uStr[sTemp].end(); ++it) {
+					if (uBool[*it] == false) {
+						vTemp.push_back(*it);
+						uBTemp.insert(*it);
+						if (*it == endWord) { rtn.push_back(vTemp); }
+						else { qVecTemp.push(vTemp); }
+						vTemp.pop_back();
+					}
+				}
+			}
+			for (it = uBTemp.begin(); it != uBTemp.end(); ++it) { uBool[*it] = true; }
+			qVec = qVecTemp;
+		}
 
-		return {};
+		//for (auto it = uPStr.begin(); it != uPStr.end(); ++it) {	cout << it->first << ",";}
+		//cout << endl;
+
+		return rtn;
 	}
 };
 
@@ -122,7 +98,17 @@ public:
 
 
 
+
+
+
 int main() {
+	vector<string> s1= { "aa","aaa","aaa","aaa", "aaa", "aaaa", "bb" };
+	unordered_set<string> myset(s1.begin(),s1.end());
+	string s = "";
+	for (auto it = myset.begin(); it != myset.end(); ++it) {
+		cout << *it << ", ";
+	}
+	cout << endl;
 
 
 
