@@ -94,6 +94,68 @@ public:
 };
 
 //Runtime: 396 ms, faster than 55.36% of C++ online submissions for Word Ladder II.
+//Memory Usage : 170.6 MB, less than 27.87% of C++ online submissions for Word Ladder II.
+
+class Solution {
+public:
+	// uStr:	store all uniq str and its neighbors
+	unordered_map<string, unordered_set<string>> uStr;
+	vector<vector<string>> rtn;
+
+	vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+		if (find(wordList.begin(), wordList.end(), endWord) == wordList.end()) { return {}; }
+		if (beginWord == endWord) { return { {endWord} }; }
+		// uSet:	get all the strs
+		//			sometimes the wordList contains beginWord, sometimes not
+		unordered_set<string> uSet(wordList.begin(), wordList.end());
+		uSet.insert(beginWord);
+
+		// Get all the strings and its neighbors
+		unordered_set<string>::iterator it;
+		for (it = uSet.begin(); it != uSet.end(); ++it) {
+			uStr[*it] = {};
+			for (int i = 0; i < (*it).size(); ++i) {
+				string s(*it);
+				for (char c = 'a'; c <= 'z'; ++c) {
+					s[i] = c;
+					if (s != *it && uSet.find(s) != uSet.end()) { uStr[*it].insert(s); }
+				}
+			}
+		}
+
+		queue<vector<string>> qVec;
+		qVec.push({ beginWord });
+		uSet.erase(beginWord);
+		while (!qVec.empty()) {
+			// If we got the results in the last loop
+			// Then we need to stop here
+			if (!rtn.empty()) { break; }
+			queue<vector<string>> qVecTemp;
+			unordered_set<string> uBTemp;
+			while (!qVec.empty()) {
+				vector<string> vTemp = qVec.front();
+				qVec.pop();
+				string sTemp = vTemp.back();
+				for (it = uStr[sTemp].begin(); it != uStr[sTemp].end(); ++it) {
+					if (uSet.find(*it) != uSet.end()) {
+						vTemp.push_back(*it);
+						uBTemp.insert(*it);
+						if (*it == endWord) { rtn.push_back(vTemp); }
+						else { qVecTemp.push(vTemp); }
+						vTemp.pop_back();
+					}
+				}
+			}
+			// Remove all the visited strings in the current loop
+			for (it = uBTemp.begin(); it != uBTemp.end(); ++it) { uSet.erase(*it); }
+			qVec = qVecTemp;
+		}
+
+		return rtn;
+	}
+};
+
+//Runtime: 396 ms, faster than 55.36% of C++ online submissions for Word Ladder II.
 //Memory Usage : 173.1 MB, less than 27.87% of C++ online submissions for Word Ladder II.
 
 class Solution {
@@ -129,6 +191,7 @@ public:
 
 		queue<vector<string>> qVec;
 		qVec.push({ beginWord });
+		uBool[beginWord] = true;
 		while (!qVec.empty()) {
 			// If we got the results in the last loop
 			// Then we need to stop here
